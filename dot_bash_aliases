@@ -1,5 +1,5 @@
-alias start-ansible='source /home/andreb/ansible-venv/bin/activate'
+alias start-ansible='source ~/.ansible-venv/bin/activate'
 alias lt='ls --human-readable --size -1 -S --classify'
 alias xclipse='xclip -se c'
-alias updistro='pkcon refresh && pkcon update -y'
+alias updistro='apt-get update && apt-get upgrade -yq && apt-get autoclean && apt-get autoremove'
 alias k='kubectl'
