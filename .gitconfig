@@ -1,0 +1,8 @@
+[user]
+	email = andreluizbossi70@gmail.com
+	name = andrebossi
+[core]
+	autocrlf = false
+[credential]
+	helper = !aws --profile bp_acft codecommit credential-helper $@
+	UseHttpPath = true
