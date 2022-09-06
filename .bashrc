@@ -25,4 +25,4 @@
 #export PILOTPORT=/dev/pilot
 #export PILOTRATE=115200
 
-test -s ~/.alias && . ~/.alias || true
+test -s ~/.bash_aliases && . ~/.bash_aliases || true
