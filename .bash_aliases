@@ -6,6 +6,7 @@ alias updistro='zypper ref && zypper up && zypper clear'
 alias k='kubectl'
 alias t='terraform'
 alias kderestart='killall plasmashell && kstart plasmashell &'
+alias v=velero
 alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
 alias dotfiles='/usr/bin/git --git-dir=/home/tbs/.dotfiles/ --work-tree=/home/tbs'
 alias dotfiles='/usr/bin/git --git-dir=/home/tbs/.dotfiles/ --work-tree=/home/tbs'

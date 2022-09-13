@@ -26,3 +26,4 @@
 #export PILOTRATE=115200
 
 test -s ~/.bash_aliases && . ~/.bash_aliases || true
+test -s ~/.profile && . ~/.profile || true
