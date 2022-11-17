@@ -40,3 +40,9 @@ source <(kubectl completion bash)
 ## velero
 source <(velero completion bash)
 complete -F __start_velero v
+# Helm
+source <(helm completion bash)
+# K3D
+source <(k3d completion bash)
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
