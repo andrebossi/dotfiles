@@ -1,5 +1,5 @@
 [Desktop Entry]
-Exec=/home/tbs/.config/autostart/imwheel.sh
+Exec=/home/$USER/.config/autostart/imwheel.sh
 Icon=dialog-scripts
 Name=imwheel.sh
 Path=

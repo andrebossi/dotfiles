@@ -35,6 +35,14 @@ runAsRoot() {
   $CMD
 }
 
+# First parameter update apps
+UPDATE=$1
+if [ -z $UPDATE ]; then
+  UPDATE=0
+else
+  echo "Upgrade latest version"
+fi
+
 # Setup init
 initVars
 if [ -d "$WORKDIR" ]; then
@@ -43,29 +51,51 @@ fi
 mkdir $WORKDIR && cd $WORKDIR
 
 # Install Tools
-runAsRoot zypper in -y jq yq curl
+runAsRoot zypper -q in -y jq yq curl
 
 # Install Kubectl
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-runAsRoot install -o root -g root -m 0755 kubectl "$INSTALL_DIR/kubectl"
+if [ ! -f "$INSTALL_DIR/kubectl" ] || [ $UPDATE == 1 ]; then
+  echo "Install kubectl"
+  curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+  runAsRoot install -o root -g root -m 0755 kubectl "$INSTALL_DIR/kubectl"
+fi
 
 # Install Helm
-curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+if [ ! -f "$INSTALL_DIR/helm" ] || [ $UPDATE == 1 ]; then
+  echo "Install helm"
+  curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+fi
 
 # Install K3D
-curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+if [ ! -f "$INSTALL_DIR/k3d" ]  || [ $UPDATE == 1 ]; then
+  echo "Install K3D"
+  curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+fi
 
 # Install Velero
-VELERO_LATEST=$(get_latest_release "vmware-tanzu/velero")
-VELERO_TARBALL_NAME=$(echo velero-$VELERO_LATEST-${OS}-${ARCH}.tar.gz)
-curl -LO "https://github.com/vmware-tanzu/velero/releases/download/$VELERO_LATEST/$VELERO_TARBALL_NAME"
-tar -xvf $VELERO_TARBALL_NAME --strip-components 1
-runAsRoot install -o root -g root -m 0755 velero "$INSTALL_DIR/velero"
+if [ ! -f "$INSTALL_DIR/velero" ] || [ $UPDATE == 1 ]; then
+  echo "Install velero"
+  VELERO_LATEST=$(get_latest_release "vmware-tanzu/velero")
+  curl -sSL -o velero.tar.gz "https://github.com/vmware-tanzu/velero/releases/latest/download/velero-$VELERO_LATEST-${OS}-${ARCH}.tar.gz"
+  tar -xvf velero.tar.gz --strip-components 1
+  runAsRoot install -o root -g root -m 0755 velero "$INSTALL_DIR/velero"
+fi
 
 # Install Terraform
-URL_TERRAFORM_LATEST=$(echo "https://releases.hashicorp.com/terraform/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform |
-    jq -r -M '.current_version')/terraform_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform |
-    jq -r -M '.current_version')_${OS}_${ARCH}.zip")
-curl -o terraform.zip $URL_TERRAFORM_LATEST
-unzip terraform.zip
-runAsRoot install -o root -g root -m 0755 terraform "$INSTALL_DIR/terraform"
+if [ ! -f "$INSTALL_DIR/terraform" ]  || [ $UPDATE == 1 ]; then
+  echo "Install Terraform"
+  URL_TERRAFORM_LATEST=$(echo "https://releases.hashicorp.com/terraform/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform |
+      jq -r -M '.current_version')/terraform_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform |
+      jq -r -M '.current_version')_${OS}_${ARCH}.zip")
+  curl -o terraform.zip $URL_TERRAFORM_LATEST
+  unzip terraform.zip
+  runAsRoot install -o root -g root -m 0755 terraform "$INSTALL_DIR/terraform"
+fi
+
+# Install ArgoCLI
+if [ ! -f "$INSTALL_DIR/argocd" ]  || [ $UPDATE == 1 ]; then
+  echo "Install ArgoCLI"
+  curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
+  sudo install -m 555 argocd-linux-amd64 "$INSTALL_DIR/argocd"
+  rm argocd-linux-amd64
+fi

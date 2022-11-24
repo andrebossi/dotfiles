@@ -7,6 +7,5 @@ alias k='kubectl'
 alias t='terraform'
 alias kderestart='killall plasmashell && kstart plasmashell &'
 alias v=velero
-alias dotfiles='/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME'
-alias dotfiles='/usr/bin/git --git-dir=/home/tbs/.dotfiles/ --work-tree=/home/tbs'
-alias dotfiles='/usr/bin/git --git-dir=/home/tbs/.dotfiles/ --work-tree=/home/tbs'
+alias dotfiles="/usr/bin/git --git-dir=/home/$USER/.dotfiles/ --work-tree=/home/$USER"
+alias dotfiles_addstg="dotfiles add \`dotfiles status -s -uno | sed -n 's/^...//p'\`"
