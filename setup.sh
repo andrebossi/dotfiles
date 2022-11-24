@@ -54,26 +54,26 @@ mkdir $WORKDIR && cd $WORKDIR
 runAsRoot zypper -q in -y jq yq curl
 
 # Install Kubectl
-if [ ! -f "$INSTALL_DIR/kubectl" ] || [ $UPDATE == 1 ]; then
+if ([ ! -f "$INSTALL_DIR/kubectl" ] || [ $UPDATE -eq 1 ]); then
   echo "Install kubectl"
   curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
   runAsRoot install -o root -g root -m 0755 kubectl "$INSTALL_DIR/kubectl"
 fi
 
 # Install Helm
-if [ ! -f "$INSTALL_DIR/helm" ] || [ $UPDATE == 1 ]; then
+if ([ ! -f "$INSTALL_DIR/helm" ] || [ $UPDATE -eq 1 ]); then
   echo "Install helm"
   curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 fi
 
 # Install K3D
-if [ ! -f "$INSTALL_DIR/k3d" ]  || [ $UPDATE == 1 ]; then
+if ([ ! -f "$INSTALL_DIR/k3d" ] || [ $UPDATE -eq 1 ]); then
   echo "Install K3D"
   curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
 fi
 
 # Install Velero
-if [ ! -f "$INSTALL_DIR/velero" ] || [ $UPDATE == 1 ]; then
+if ([ ! -f "$INSTALL_DIR/velero" ] || [ $UPDATE -eq 1 ]); then
   echo "Install velero"
   VELERO_LATEST=$(get_latest_release "vmware-tanzu/velero")
   curl -sSL -o velero.tar.gz "https://github.com/vmware-tanzu/velero/releases/latest/download/velero-$VELERO_LATEST-${OS}-${ARCH}.tar.gz"
@@ -82,7 +82,7 @@ if [ ! -f "$INSTALL_DIR/velero" ] || [ $UPDATE == 1 ]; then
 fi
 
 # Install Terraform
-if [ ! -f "$INSTALL_DIR/terraform" ]  || [ $UPDATE == 1 ]; then
+if ([ ! -f "$INSTALL_DIR/terraform" ] || [ $UPDATE -eq 1 ]); then
   echo "Install Terraform"
   URL_TERRAFORM_LATEST=$(echo "https://releases.hashicorp.com/terraform/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform |
       jq -r -M '.current_version')/terraform_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform |
@@ -93,9 +93,16 @@ if [ ! -f "$INSTALL_DIR/terraform" ]  || [ $UPDATE == 1 ]; then
 fi
 
 # Install ArgoCLI
-if [ ! -f "$INSTALL_DIR/argocd" ]  || [ $UPDATE == 1 ]; then
+if ([ ! -f "$INSTALL_DIR/argocd" ] || [ $UPDATE -eq 1 ]); then
   echo "Install ArgoCLI"
-  curl -sSL -o argocd-linux-amd64 https://github.com/argoproj/argo-cd/releases/latest/download/argocd-linux-amd64
-  sudo install -m 555 argocd-linux-amd64 "$INSTALL_DIR/argocd"
-  rm argocd-linux-amd64
+  curl -sSL -o argocd-${OS}-${ARCH} "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-${OS}-${ARCH}"
+  sudo install -m 555 argocd-${OS}-${ARCH} "$INSTALL_DIR/argocd"
+  rm argocd-${OS}-${ARCH}
+fi
+
+# Install ArgoCLI Rollout
+if ([ ! -f "$INSTALL_DIR/kubectl-argo-rollouts" ] || [ $UPDATE -eq 1 ]); then
+  echo "Install Argo Rollouts"
+  curl -LO "https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-${OS}-${ARCH}"
+  sudo install -m 755 kubectl-argo-rollouts-${OS}-${ARCH} "$INSTALL_DIR/kubectl-argo-rollouts"
 fi
