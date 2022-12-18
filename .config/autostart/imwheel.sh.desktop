@@ -1,7 +1,0 @@
-[Desktop Entry]
-Exec=/home/$USER/.config/autostart/imwheel.sh
-Icon=dialog-scripts
-Name=imwheel.sh
-Path=
-Type=Application
-X-KDE-AutostartScript=true

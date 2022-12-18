@@ -50,8 +50,17 @@ if [ -d "$WORKDIR" ]; then
 fi
 mkdir $WORKDIR && cd $WORKDIR
 
-# Install Tools
-runAsRoot zypper -q in -y jq yq curl
+# Install jq
+if ([ ! -f "$INSTALL_DIR/jq" ] || [ $UPDATE -eq 1 ]); then
+  wget https://github.com/stedolan/jq/releases/download/latest/jq-linux64 -O jq
+  runAsRoot install -o root -g root -m 0755 jq "$INSTALL_DIR/jq"
+fi
+
+# Install yq
+if ([ ! -f "$INSTALL_DIR/yq" ] || [ $UPDATE -eq 1 ]); then
+  wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O yq
+  runAsRoot install -o root -g root -m 0755 yq "$INSTALL_DIR/yq"
+fi
 
 # Install Kubectl
 if ([ ! -f "$INSTALL_DIR/kubectl" ] || [ $UPDATE -eq 1 ]); then
@@ -66,10 +75,12 @@ if ([ ! -f "$INSTALL_DIR/helm" ] || [ $UPDATE -eq 1 ]); then
   curl https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
 fi
 
-# Install K3D
-if ([ ! -f "$INSTALL_DIR/k3d" ] || [ $UPDATE -eq 1 ]); then
-  echo "Install K3D"
-  curl -s https://raw.githubusercontent.com/k3d-io/k3d/main/install.sh | bash
+# Install Kind
+if ([ ! -f "$INSTALL_DIR/kind" ] || [ $UPDATE -eq 1 ]); then
+  echo "Install Kind"
+  KIND_LATEST=$(get_latest_release "kubernetes-sigs/kind")
+  curl -sSL -o kind "https://github.com/kubernetes-sigs/kind/releases/download/$KIND_LATEST/kind-${OS}-${ARCH}"
+  runAsRoot install -o root -g root -m 0755 kind "$INSTALL_DIR/kind"
 fi
 
 # Install Velero
