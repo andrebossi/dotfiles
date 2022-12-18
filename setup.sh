@@ -52,7 +52,7 @@ mkdir $WORKDIR && cd $WORKDIR
 
 # Install jq
 if ([ ! -f "$INSTALL_DIR/jq" ] || [ $UPDATE -eq 1 ]); then
-  wget https://github.com/stedolan/jq/releases/download/latest/jq-linux64 -O jq
+  wget https://github.com/stedolan/jq/releases/latest/download/jq-linux64 -O jq
   runAsRoot install -o root -g root -m 0755 jq "$INSTALL_DIR/jq"
 fi
 

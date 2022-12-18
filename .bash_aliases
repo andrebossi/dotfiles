@@ -8,4 +8,4 @@ alias t='terraform'
 alias kderestart='killall plasmashell && kstart plasmashell &'
 alias v=velero
 alias dotfiles="/usr/bin/git --git-dir=/home/$USER/.dotfiles/ --work-tree=/home/$USER"
-alias dotfiles_addstg="dotfiles add \`dotfiles status -s -uno | sed -n 's/^...//p'\`"
+alias dotfiles-add="dotfiles add \`dotfiles status -s -uno | sed -n 's/^...//p'\`"
