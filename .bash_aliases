@@ -6,6 +6,9 @@ alias updistro='zypper ref && zypper up && zypper clear'
 alias k='kubectl'
 alias t='terraform'
 alias kderestart='killall plasmashell && kstart plasmashell &'
-alias v=velero
+alias v='velero'
 alias dotfiles="/usr/bin/git --git-dir=/home/$USER/.dotfiles/ --work-tree=/home/$USER"
 alias dotfiles-add="dotfiles add \`dotfiles status -s -uno | sed -n 's/^...//p'\`"
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
