@@ -95,9 +95,9 @@ fi
 # Install Terraform
 if ([ ! -f "$INSTALL_DIR/terraform" ] || [ $UPDATE -eq 1 ]); then
   echo "Install Terraform"
-  URL_TERRAFORM_LATEST=$(echo "https://releases.hashicorp.com/terraform/$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform |
-      jq -r -M '.current_version')/terraform_$(curl -s https://checkpoint-api.hashicorp.com/v1/check/terraform |
-      jq -r -M '.current_version')_${OS}_${ARCH}.zip")
+  TF_VERSION=$(get_latest_release "hashicorp/terraform")
+  TF_VERSION=${TF_VERSION:1}
+  URL_TERRAFORM_LATEST="https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_${OS}_${ARCH}.zip"
   curl -o terraform.zip $URL_TERRAFORM_LATEST
   unzip terraform.zip
   runAsRoot install -o root -g root -m 0755 terraform "$INSTALL_DIR/terraform"
