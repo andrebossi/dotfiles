@@ -6,7 +6,7 @@ if ! shopt -oq posix; then
   fi
 fi
 
-if [ -f ~/.profiles ]; then
+if [ -f ~/.profile ]; then
     . ~/.profile
 fi
 

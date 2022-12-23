@@ -107,7 +107,7 @@ fi
 if ([ ! -f "$INSTALL_DIR/argocd" ] || [ $UPDATE -eq 1 ]); then
   echo "Install ArgoCLI"
   curl -sSL -o argocd-${OS}-${ARCH} "https://github.com/argoproj/argo-cd/releases/latest/download/argocd-${OS}-${ARCH}"
-  sudo install -m 555 argocd-${OS}-${ARCH} "$INSTALL_DIR/argocd"
+  runAsRoot install -m 555 argocd-${OS}-${ARCH} "$INSTALL_DIR/argocd"
   rm argocd-${OS}-${ARCH}
 fi
 
@@ -115,5 +115,12 @@ fi
 if ([ ! -f "$INSTALL_DIR/kubectl-argo-rollouts" ] || [ $UPDATE -eq 1 ]); then
   echo "Install Argo Rollouts"
   curl -LO "https://github.com/argoproj/argo-rollouts/releases/latest/download/kubectl-argo-rollouts-${OS}-${ARCH}"
-  sudo install -m 755 kubectl-argo-rollouts-${OS}-${ARCH} "$INSTALL_DIR/kubectl-argo-rollouts"
+  runAsRoot install -m 755 kubectl-argo-rollouts-${OS}-${ARCH} "$INSTALL_DIR/kubectl-argo-rollouts"
 fi
+
+# Install Crossplane
+if ([ ! -f "$INSTALL_DIR/kubectl-crossplane" ] || [ $UPDATE -eq 1 ]); then
+  curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh
+  runAsRoot mv kubectl-crossplane /usr/local/bin
+fi
+

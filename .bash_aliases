@@ -1,5 +1,4 @@
 alias ansible_start='source ~/.ansible-venv/bin/activate'
-alias lt='ls --human-readable --size -1 -S --classify'
 alias clip='xclip -se c'
 alias updistrodeb='apt-get update && apt-get upgrade -yq && apt-get autoclean && apt-get autoremove'
 alias updistro='zypper ref && zypper up && zypper clear'
@@ -12,3 +11,4 @@ alias dotfiles-add="dotfiles add \`dotfiles status -s -uno | sed -n 's/^...//p'\
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
+alias lt='ls --human-readable --size -1 -S --classify'
