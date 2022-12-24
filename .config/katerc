@@ -1,3 +1,7 @@
+[FileDialogSize]
+HDMI-1 eDP-1 Height 1920x1080=600
+HDMI-1 eDP-1 Width 1920x1080=980
+
 [General]
 Config Revision=10
 Days Meta Infos=30
@@ -6,6 +10,9 @@ Show Full Path in Title=false
 Show Menu Bar=true
 Show Status Bar=true
 Show Tab Bar=true
+
+[KFileDialog Settings]
+detailViewIconSize=16
 
 [KTextEditor Document]
 Allow End of Line Detection=true
