@@ -111,6 +111,7 @@ DialogWidth=720
 groupedTaskVisualization=1
 groupingAppIdBlacklist=google-chrome.desktop
 groupingLauncherUrlBlacklist=applications:google-chrome.desktop
+highlightWindows=false
 indicateAudioStreams=false
 launchers=applications:google-chrome.desktop,preferred://filemanager,applications:org.kde.konsole.desktop
 
