@@ -1,6 +1,9 @@
 [PlasmaViews][Panel 3][Defaults]
 thickness=44
 
+[PlasmaViews][Panel 3][Horizontal1600]
+thickness=44
+
 [PlasmaViews][Panel 3][Horizontal1920]
 thickness=44
 
