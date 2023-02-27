@@ -69,6 +69,20 @@ if ([ ! -f "$INSTALL_DIR/kubectl" ] || [ $UPDATE -eq 1 ]); then
   runAsRoot install -o root -g root -m 0755 kubectl "$INSTALL_DIR/kubectl"
 fi
 
+# Install kns
+if ([ ! -f "$INSTALL_DIR/kns" ] || [ $UPDATE -eq 1 ]); then
+  echo "Install kns"
+  curl https://raw.githubusercontent.com/blendle/kns/master/bin/kns -o kns
+  runAsRoot install -o root -g root -m 0755 kns "$INSTALL_DIR/kns"
+fi
+
+# Install ktx
+if ([ ! -f "$INSTALL_DIR/ktx" ] || [ $UPDATE -eq 1 ]); then
+  echo "Install ktx"
+  curl https://raw.githubusercontent.com/blendle/kns/master/bin/ktx -o ktx
+  runAsRoot install -o root -g root -m 0755 ktx "$INSTALL_DIR/ktx"
+fi
+
 # Install Helm
 if ([ ! -f "$INSTALL_DIR/helm" ] || [ $UPDATE -eq 1 ]); then
   echo "Install helm"

@@ -3,9 +3,14 @@ Version=201
 ViewPropsTimestamp=2022,12,24,9,51,46.994
 
 [MainWindow]
+HDMI-1 eDP-1 Height 1600x900=560
 HDMI-1 eDP-1 Height 1920x1080=600
+HDMI-1 eDP-1 Width 1600x900=760
 HDMI-1 eDP-1 Width 1920x1080=760
-HDMI-1 eDP-1 XPosition 1920x1080=2180
-HDMI-1 eDP-1 YPosition 1920x1080=232
+HDMI-1 eDP-1 Window-Maximized 1600x900=true
+HDMI-1 eDP-1 XPosition 1600x900=2216
+HDMI-1 eDP-1 XPosition 1920x1080=412
+HDMI-1 eDP-1 YPosition 1600x900=200
+HDMI-1 eDP-1 YPosition 1920x1080=226
 MenuBar=Disabled
 ToolBarsMovable=Disabled
