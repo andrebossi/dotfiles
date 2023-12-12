@@ -69,20 +69,6 @@ if ([ ! -f "$INSTALL_DIR/kubectl" ] || [ $UPDATE -eq 1 ]); then
   runAsRoot install -o root -g root -m 0755 kubectl "$INSTALL_DIR/kubectl"
 fi
 
-# Install kns
-if ([ ! -f "$INSTALL_DIR/kns" ] || [ $UPDATE -eq 1 ]); then
-  echo "Install kns"
-  curl https://raw.githubusercontent.com/blendle/kns/master/bin/kns -o kns
-  runAsRoot install -o root -g root -m 0755 kns "$INSTALL_DIR/kns"
-fi
-
-# Install ktx
-if ([ ! -f "$INSTALL_DIR/ktx" ] || [ $UPDATE -eq 1 ]); then
-  echo "Install ktx"
-  curl https://raw.githubusercontent.com/blendle/kns/master/bin/ktx -o ktx
-  runAsRoot install -o root -g root -m 0755 ktx "$INSTALL_DIR/ktx"
-fi
-
 # Install Helm
 if ([ ! -f "$INSTALL_DIR/helm" ] || [ $UPDATE -eq 1 ]); then
   echo "Install helm"
@@ -132,9 +118,20 @@ if ([ ! -f "$INSTALL_DIR/kubectl-argo-rollouts" ] || [ $UPDATE -eq 1 ]); then
   runAsRoot install -m 755 kubectl-argo-rollouts-${OS}-${ARCH} "$INSTALL_DIR/kubectl-argo-rollouts"
 fi
 
-# Install Crossplane
-if ([ ! -f "$INSTALL_DIR/kubectl-crossplane" ] || [ $UPDATE -eq 1 ]); then
-  curl -sL https://raw.githubusercontent.com/crossplane/crossplane/master/install.sh | sh
-  runAsRoot mv kubectl-crossplane /usr/local/bin
+# Install kubectx
+if ([ ! -f "$INSTALL_DIR/kubectx" ] || [ $UPDATE -eq 1 ]); then
+  echo "Install kubectx"
+  KUBECTX_LATEST=$(get_latest_release "ahmetb/kubectx")
+  curl -sSL -o kubectx.tar.gz https://github.com/ahmetb/kubectx/releases/download/$KUBECTX_LATEST/kubectx_${KUBECTX_LATEST}_${OS}_x86_64.tar.gz
+  tar xf kubectx.tar.gz
+  runAsRoot install -m 555 kubectx "$INSTALL_DIR/kubectx"
 fi
 
+# Install kubens
+if ([ ! -f "$INSTALL_DIR/kubens" ] || [ $UPDATE -eq 1 ]); then
+  echo "Install kubens"
+  KUBENS_LATEST=$(get_latest_release "ahmetb/kubectx")
+  curl -sSL -o kubens.tar.gz https://github.com/ahmetb/kubectx/releases/download/$KUBENS_LATEST/kubens_${KUBENS_LATEST}_${OS}_x86_64.tar.gz
+  tar xf kubens.tar.gz
+  runAsRoot install -m 555 kubens "$INSTALL_DIR/kubens"
+fi

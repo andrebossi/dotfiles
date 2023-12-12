@@ -1,3 +1,7 @@
+[ExtractDialog]
+DVI-D-0 Height 1920x1080 DVI-D-0=560
+DVI-D-0 Width 1920x1080 DVI-D-0=1280
+
 [General]
 Version=202
 ViewPropsTimestamp=2022,12,24,9,51,46.994
