@@ -143,7 +143,7 @@ if ([ ! -f "$INSTALL_DIR/kubens" ] || [ $UPDATE == "1" ]); then
 fi
 
 # Install Pyenv
-if [ "$UPDATE" -eq "pyenv" ]; then
+if [ $UPDATE == "pyenv" ]; then
   if [ -z $DEBIAN ] ; then
     sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
       libbz2-dev libreadline-dev libsqlite3-dev curl \
