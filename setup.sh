@@ -10,7 +10,7 @@ initVars() {
     DEBIAN=true
     runAsRoot apt-get install -y ca-certificates curl gnupg apt-transport-https lsb-release unzip
     runAsRoot mkdir -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    runAsRoot curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
     runAsRoot chmod a+r /etc/apt/keyrings/docker.gpg
     runAsRoot echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
