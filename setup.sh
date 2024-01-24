@@ -8,7 +8,19 @@ initVars() {
   ARCH=$(uname -m)
   if grep -q -i "ID_LIKE=debian" /etc/os-release ; then
     DEBIAN=true
-    runAsRoot apt-get install unzip
+    runAsRoot apt-get install -y ca-certificates curl gnupg apt-transport-https lsb-release unzip
+    runAsRoot mkdir -p /etc/apt/keyrings
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    runAsRoot chmod a+r /etc/apt/keyrings/docker.gpg
+    echo \
+      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
+      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
+      runAsRoot tee /etc/apt/sources.list.d/docker.list > /dev/null
+    runAsRoot apt-get update && apt-get install -y containerd.io docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin
+    runAsRoot containerd config default > /etc/containerd/config.toml
+    runAsRoot sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
+    runAsRoot systemctl restart containerd
+    runAsRoot systemctl enable containerd
   elif grep -q -i "ID=openSUSE" /etc/os-release ; then
     OPENSUSE=true
   fi
@@ -144,7 +156,7 @@ fi
 
 # Install Pyenv
 if [ $UPDATE == "pyenv" ]; then
-  if [ -z $DEBIAN ] ; then
+  if [ ! -z $DEBIAN ] ; then
     sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
       libbz2-dev libreadline-dev libsqlite3-dev curl \
       libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
