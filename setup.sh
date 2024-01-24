@@ -12,10 +12,10 @@ initVars() {
     runAsRoot mkdir -p /etc/apt/keyrings
     curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
     runAsRoot chmod a+r /etc/apt/keyrings/docker.gpg
-    echo \
+    runAsRoot echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      runAsRoot tee /etc/apt/sources.list.d/docker.list > /dev/null
+      tee /etc/apt/sources.list.d/docker.list > /dev/null
     runAsRoot apt-get update && apt-get install -y containerd.io docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin
     runAsRoot containerd config default > /etc/containerd/config.toml
     runAsRoot sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
