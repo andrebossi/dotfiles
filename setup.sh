@@ -135,3 +135,13 @@ if ([ ! -f "$INSTALL_DIR/kubens" ] || [ $UPDATE -eq 1 ]); then
   tar xf kubens.tar.gz
   runAsRoot install -m 555 kubens "$INSTALL_DIR/kubens"
 fi
+
+# Install Pyenv
+if [ $UPDATE -eq "pyenv" ]; then
+  if grep -q "ID_LIKE=debian" /etc/os-release ; then
+    sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
+      libbz2-dev libreadline-dev libsqlite3-dev curl \
+      libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
+    curl https://pyenv.run | bash
+  fi
+fi
