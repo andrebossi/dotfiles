@@ -10,17 +10,16 @@ initVars() {
     DEBIAN=true
     runAsRoot apt-get install -y ca-certificates curl gnupg apt-transport-https lsb-release unzip
     runAsRoot mkdir -p /etc/apt/keyrings
-    runAsRoot curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /etc/apt/keyrings/docker.gpg
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | runAsRoot gpg --dearmor -o /etc/apt/keyrings/docker.gpg
     runAsRoot chmod a+r /etc/apt/keyrings/docker.gpg
-    runAsRoot echo \
+    echo \
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      tee /etc/apt/sources.list.d/docker.list > /dev/null
-    runAsRoot apt-get update && apt-get install -y containerd.io docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin
-    runAsRoot containerd config default > /etc/containerd/config.toml
-    runAsRoot sed -i 's/SystemdCgroup \= false/SystemdCgroup \= true/g' /etc/containerd/config.toml
-    runAsRoot systemctl restart containerd
-    runAsRoot systemctl enable containerd
+      runAsRoot tee /etc/apt/sources.list.d/docker.list > /dev/null
+    runAsRoot apt-get update 
+    runAsRoot apt-get install -y containerd.io docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin
+    runAsRoot systemctl enable containerd --now
+    runAsRoot systemctl enable docker --now
   elif grep -q -i "ID=openSUSE" /etc/os-release ; then
     OPENSUSE=true
   fi
