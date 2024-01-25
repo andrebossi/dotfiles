@@ -1,0 +1,21 @@
+[Desktop Entry]
+DefaultProfile=andre.profile
+
+[General]
+ConfigVersion=1
+
+[KonsoleWindow]
+RememberWindowSize=false
+
+[MainWindow]
+1920x1080 screen: Height=783
+1920x1080 screen: Width=1303
+1920x1080 screen: XPosition=282
+1920x1080 screen: YPosition=160
+DVI-D-1=DVI-D-1
+RestorePositionForNextInstance=false
+State=AAAA/wAAAAD9AAAAAQAAAAAAAAAAAAAAAPwCAAAAAvsAAAAiAFEAdQBpAGMAawBDAG8AbQBtAGEAbgBkAHMARABvAGMAawAAAAAA/////wAAAXwBAAAD+wAAABwAUwBTAEgATQBhAG4AYQBnAGUAcgBEAG8AYwBrAAAAAAD/////AAABFQEAAAMAAAUXAAAC4QAAAAQAAAAEAAAACAAAAAj8AAAAAQAAAAIAAAACAAAAFgBtAGEAaQBuAFQAbwBvAGwAQgBhAHIBAAAAAP////8AAAAAAAAAAAAAABwAcwBlAHMAcwBpAG8AbgBUAG8AbwBsAGIAYQByAQAAAOj/////AAAAAAAAAAA=
+ToolBarsMovable=Disabled
+
+[UiSettings]
+ColorScheme=

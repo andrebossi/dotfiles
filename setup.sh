@@ -20,7 +20,7 @@ initVars() {
     runAsRoot apt-get install -y containerd.io docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin
     runAsRoot systemctl enable containerd --now
     runAsRoot systemctl enable docker --now
-  elif grep -q -i "ID=openSUSE" /etc/os-release ; then
+  elif grep -q -i "ID=\"opensuse" /etc/os-release ; then
     OPENSUSE=true
   fi
   case $ARCH in
@@ -155,10 +155,13 @@ fi
 
 # Install Pyenv
 if [ $UPDATE == "pyenv" ]; then
+  curl https://pyenv.run | bash
   if [ ! -z $DEBIAN ] ; then
     sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
       libbz2-dev libreadline-dev libsqlite3-dev curl \
       libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-    curl https://pyenv.run | bash
+  elif [ ! -z $OPENSUSE ] ; then
+    sudo zypper install gcc automake bzip2 libbz2-devel xz xz-devel openssl-devel ncurses-devel \
+      readline-devel zlib-devel tk-devel libffi-devel sqlite3-devel gdbm-devel make findutils patch
   fi
 fi
