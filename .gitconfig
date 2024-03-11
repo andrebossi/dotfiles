@@ -3,3 +3,5 @@
 	name = andrebossi
 [core]
 	autocrlf = false
+[init]
+	defaultBranch = main
