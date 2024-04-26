@@ -16,8 +16,8 @@ initVars() {
       "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
       $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
       runAsRoot tee /etc/apt/sources.list.d/docker.list > /dev/null
-    runAsRoot apt-get update 
-    runAsRoot apt-get install -y containerd.io docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin
+    runAsRoot apt-get update
+    runAsRoot apt-get install -y uidmap containerd.io docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin
     runAsRoot systemctl enable containerd --now
     runAsRoot systemctl enable docker --now
   elif grep -q -i "ID=\"opensuse" /etc/os-release ; then
