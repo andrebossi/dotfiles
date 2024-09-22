@@ -17,3 +17,6 @@ source <(kind completion bash)
 export PYENV_ROOT="$HOME/.pyenv"
 command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
+
+source ~/.local/bin/kube-ps1.sh
+PS1='[\u@\h \W $(kube_ps1)]\$ '
