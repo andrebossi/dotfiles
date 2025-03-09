@@ -14,3 +14,4 @@ alias kns='kubens'
 alias kx='kubectx'
 
 alias kderestart='killall plasmashell && kstart plasmashell &'
+alias gnomedump='dconf dump /'
