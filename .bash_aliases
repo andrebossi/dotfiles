@@ -15,3 +15,10 @@ alias kx='kubectx'
 
 alias kderestart='killall plasmashell && kstart plasmashell &'
 alias gnomedump='dconf dump /'
+
+alias assumeloginfo='export $(printf "AWS_ACCESS_KEY_ID=%s AWS_SECRET_ACCESS_KEY=%s AWS_SESSION_TOKEN=%s" \
+  $(aws sts assume-role \
+--role-arn arn:aws:iam::221082183970:role/terraform-monitoring \
+--role-session-name terraform --external-id 43a6aae4c101 \
+--query "Credentials.[AccessKeyId,SecretAccessKey,SessionToken]" \
+--output text))'
