@@ -109,17 +109,6 @@ if ([ ! -f "$INSTALL_DIR/velero" ] || [ $UPDATE == "1" ]); then
   runAsRoot install -o root -g root -m 0755 velero "$INSTALL_DIR/velero"
 fi
 
-# Install Terraform
-if ([ ! -f "$INSTALL_DIR/terraform" ] || [ $UPDATE == "1" ]); then
-  echo "Install Terraform"
-  TF_VERSION=$(get_latest_release "hashicorp/terraform")
-  TF_VERSION=${TF_VERSION:1}
-  URL_TERRAFORM_LATEST="https://releases.hashicorp.com/terraform/${TF_VERSION}/terraform_${TF_VERSION}_${OS}_${ARCH}.zip"
-  curl -o terraform.zip $URL_TERRAFORM_LATEST
-  unzip terraform.zip
-  runAsRoot install -o root -g root -m 0755 terraform "$INSTALL_DIR/terraform"
-fi
-
 # Install ArgoCLI
 if ([ ! -f "$INSTALL_DIR/argocd" ] || [ $UPDATE == "1" ]); then
   echo "Install ArgoCLI"
@@ -151,19 +140,6 @@ if ([ ! -f "$INSTALL_DIR/kubens" ] || [ $UPDATE == "1" ]); then
   curl -sSL -o kubens.tar.gz https://github.com/ahmetb/kubectx/releases/download/$KUBENS_LATEST/kubens_${KUBENS_LATEST}_${OS}_x86_64.tar.gz
   tar xf kubens.tar.gz
   runAsRoot install -m 555 kubens "$INSTALL_DIR/kubens"
-fi
-
-# Install Pyenv
-if [ $UPDATE == "pyenv" ]; then
-  curl https://pyenv.run | bash
-  if [ ! -z $DEBIAN ] ; then
-    sudo apt update; sudo apt install build-essential libssl-dev zlib1g-dev \
-      libbz2-dev libreadline-dev libsqlite3-dev curl \
-      libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev
-  elif [ ! -z $OPENSUSE ] ; then
-    sudo zypper install gcc automake bzip2 libbz2-devel xz xz-devel openssl-devel ncurses-devel \
-      readline-devel zlib-devel tk-devel libffi-devel sqlite3-devel gdbm-devel make findutils patch
-  fi
 fi
 
 # Kubectl krew
