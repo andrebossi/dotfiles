@@ -3,7 +3,7 @@
 # Kubernetes prompt helper for bash/zsh
 # Displays current context and namespace
 
-# Copyright 2024 Jon Mosco
+# Copyright 2025 Jon Mosco
 #
 #  Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -33,6 +33,8 @@ KUBE_PS1_PREFIX="${KUBE_PS1_PREFIX-(}"
 KUBE_PS1_SEPARATOR="${KUBE_PS1_SEPARATOR-|}"
 KUBE_PS1_DIVIDER="${KUBE_PS1_DIVIDER-:}"
 KUBE_PS1_SUFFIX="${KUBE_PS1_SUFFIX-)}"
+
+KUBE_PS1_HIDE_IF_NOCONTEXT="${KUBE_PS1_HIDE_IF_NOCONTEXT:-false}"
 
 _KUBE_PS1_KUBECONFIG_CACHE="${KUBECONFIG}"
 _KUBE_PS1_DISABLE_PATH="${HOME}/.kube/kube-ps1/disabled"
@@ -376,6 +378,8 @@ kubeoff() {
 kube_ps1() {
   [[ "${KUBE_PS1_ENABLED}" == "off" ]] && return
   [[ -z "${KUBE_PS1_CONTEXT}" ]] && [[ "${KUBE_PS1_CONTEXT_ENABLE}" == true ]] && return
+  [[ "${KUBE_PS1_CONTEXT}" == "N/A" ]] && [[ ${KUBE_PS1_HIDE_IF_NOCONTEXT} == true ]] && return
+
 
   local KUBE_PS1
   local KUBE_PS1_RESET_COLOR="${_KUBE_PS1_OPEN_ESC}${_KUBE_PS1_DEFAULT_FG}${_KUBE_PS1_CLOSE_ESC}"
