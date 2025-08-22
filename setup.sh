@@ -6,23 +6,6 @@ initVars() {
   WORKDIR="/tmp/setup"
   OS=$(uname | tr '[:upper:]' '[:lower:]')
   ARCH=$(uname -m)
-  if grep -q -i "ID_LIKE=debian" /etc/os-release ; then
-    DEBIAN=true
-    runAsRoot apt-get install -y ca-certificates curl gnupg apt-transport-https lsb-release unzip
-    runAsRoot mkdir -p /etc/apt/keyrings
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | runAsRoot gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-    runAsRoot chmod a+r /etc/apt/keyrings/docker.gpg
-    echo \
-      "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu \
-      $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | \
-      runAsRoot tee /etc/apt/sources.list.d/docker.list > /dev/null
-    runAsRoot apt-get update
-    runAsRoot apt-get install -y uidmap containerd.io docker-ce docker-ce-cli docker-buildx-plugin docker-compose-plugin
-    runAsRoot systemctl enable containerd --now
-    runAsRoot systemctl enable docker --now
-  elif grep -q -i "ID=\"opensuse" /etc/os-release ; then
-    OPENSUSE=true
-  fi
   case $ARCH in
     armv5*) ARCH="armv5";;
     armv6*) ARCH="armv6";;
@@ -36,9 +19,9 @@ initVars() {
 }
 
 get_latest_release() {
-  curl --silent "https://api.github.com/repos/$1/releases/latest" | # Get latest release from GitHub api
-    grep '"tag_name":' |                                            # Get tag line
-    sed -E 's/.*"([^"]+)".*/\1/'                                    # Pluck JSON value
+  curl --silent "https://api.github.com/repos/$1/releases/latest" |
+    grep '"tag_name":' |
+    sed -E 's/.*"([^"]+)".*/\1/'
 }
 
 runAsRoot() {
@@ -52,7 +35,6 @@ runAsRoot() {
   $CMD
 }
 
-# First parameter update apps
 UPDATE=$1
 if [ -z "$UPDATE" ]; then
   UPDATE=0
@@ -66,6 +48,9 @@ if [ -d "$WORKDIR" ]; then
   rm -rf $WORKDIR
 fi
 mkdir $WORKDIR && cd $WORKDIR
+
+# Install tfenv
+git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
 
 # Install jq
 if ([ ! -f "$INSTALL_DIR/jq" ] || [ $UPDATE == "1" ]); then

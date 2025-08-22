@@ -155,7 +155,7 @@ _kube_ps1_symbol() {
 
   local symbol=""
   local symbol_default=$'\u2388'
-  local symbol_img="☸️" 
+  local symbol_img="☸️"
   local k8s_glyph=$'\Uf10fe'
   local k8s_symbol_color=blue
   local oc_glyph=$'\ue7b7'
