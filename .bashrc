@@ -27,3 +27,6 @@ unset rc
 # Kube-ps1 Load
 . "$HOME/.local/bin/kube-ps1.sh"
 export PS1='[\[\e[32m\]\u@\h\[\e[0m\] \W $(kube_ps1)]\$ '
+
+source <(kubectl completion bash)
+complete -F __start_kubectl k
