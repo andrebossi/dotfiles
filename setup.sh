@@ -51,18 +51,7 @@ mkdir $WORKDIR && cd $WORKDIR
 
 # Install tfenv
 git clone --depth=1 https://github.com/tfutils/tfenv.git ~/.tfenv
-
-# Install jq
-if ([ ! -f "$INSTALL_DIR/jq" ] || [ $UPDATE == "1" ]); then
-  wget https://github.com/stedolan/jq/releases/latest/download/jq-linux64 -O jq
-  runAsRoot install -o root -g root -m 0755 jq "$INSTALL_DIR/jq"
-fi
-
-# Install yq
-if ([ ! -f "$INSTALL_DIR/yq" ] || [ $UPDATE == "1" ]); then
-  wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O yq
-  runAsRoot install -o root -g root -m 0755 yq "$INSTALL_DIR/yq"
-fi
+git cloen --depth=1 https://github.com/tofuutils/tofuenv.git ~/.tofuenv
 
 # Install Kubectl
 if ([ ! -f "$INSTALL_DIR/kubectl" ] || [ $UPDATE == "1" ]); then
@@ -83,15 +72,6 @@ if ([ ! -f "$INSTALL_DIR/kind" ] || [ $UPDATE == "1" ]); then
   KIND_LATEST=$(get_latest_release "kubernetes-sigs/kind")
   curl -sSL -o kind "https://github.com/kubernetes-sigs/kind/releases/download/$KIND_LATEST/kind-${OS}-${ARCH}"
   runAsRoot install -o root -g root -m 0755 kind "$INSTALL_DIR/kind"
-fi
-
-# Install Velero
-if ([ ! -f "$INSTALL_DIR/velero" ] || [ $UPDATE == "1" ]); then
-  echo "Install velero"
-  VELERO_LATEST=$(get_latest_release "vmware-tanzu/velero")
-  curl -sSL -o velero.tar.gz "https://github.com/vmware-tanzu/velero/releases/latest/download/velero-$VELERO_LATEST-${OS}-${ARCH}.tar.gz"
-  tar -xvf velero.tar.gz --strip-components 1
-  runAsRoot install -o root -g root -m 0755 velero "$INSTALL_DIR/velero"
 fi
 
 # Install ArgoCLI

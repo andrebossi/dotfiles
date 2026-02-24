@@ -30,3 +30,7 @@ export PS1='[\[\e[32m\]\u@\h\[\e[0m\] \W $(kube_ps1)]\$ '
 
 source <(kubectl completion bash)
 complete -F __start_kubectl k
+source <(istioctl completion bash)
+source <(helm completion bash)
+
+complete -C /home/andre/.tofuenv/versions/1.11.5/tofu tofu
