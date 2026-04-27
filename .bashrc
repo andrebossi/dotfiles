@@ -9,7 +9,8 @@ fi
 if ! [[ "$PATH" =~ "$HOME/.local/bin:$HOME/bin:" ]]; then
     PATH="$HOME/.local/bin:$HOME/bin:$PATH"
 fi
-export PATH
+
+export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$HOME/.istioctl/bin:$HOME/.tfenv/bin:$HOME/.tofuenv/bin:$PATH"
 
 # Uncomment the following line if you don't like systemctl's auto-paging feature:
 # export SYSTEMD_PAGER=
@@ -32,5 +33,4 @@ source <(kubectl completion bash)
 complete -F __start_kubectl k
 source <(istioctl completion bash)
 source <(helm completion bash)
-
-complete -C /home/andre/.tofuenv/versions/1.11.5/tofu tofu
+complete -C $HOME/.tofuenv/bin/tofu tofu

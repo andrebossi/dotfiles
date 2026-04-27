@@ -4,6 +4,3 @@
 if [ -f ~/.bashrc ]; then
     . ~/.bashrc
 fi
-
-# User specific environment and startup programs
-export PATH="$HOME/.istioctl/bin:$HOME/.tfenv/bin:$PATH:$HOME/.tofuenv/bin:$PATH"

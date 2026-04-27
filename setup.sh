@@ -117,3 +117,8 @@ fi
   tar zxvf "${KREW}.tar.gz" &&
   ./"${KREW}" install krew
 )
+
+# install istioctl
+if ([ ! -f "$HOME/.istioctl" ] || [ $UPDATE == "1" ]); then
+  curl -sL https://istio.io/downloadIstioctl | sh -
+fi
